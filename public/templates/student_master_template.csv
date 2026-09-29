@@ -1,0 +1,2 @@
+usn,name,email,phone,program_code,semester,section,mentor_faculty_code,pbl_supervisor_code,is_active
+GMU26CSE001,Sample Student,student@gmu.ac.in,9999999999,CSE,5,A,FAC001,SUP001,true

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: falcon-pbl-project-hub
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: falcon-pbl-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: NEXT_PUBLIC_APP_NAME
+        value: Falcon PBL Project Hub
+      - key: NEXT_PUBLIC_INSTITUTION
+        value: GM University, Davanagere
+databases:
+  - name: falcon-pbl-db
+    plan: free

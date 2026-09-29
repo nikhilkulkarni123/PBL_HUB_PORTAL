@@ -1,0 +1,2 @@
+faculty_code,name,email,phone,designation,department,is_active
+FAC001,Dr. Sample Faculty,faculty@gmu.ac.in,9999999999,Professor,CSE,true

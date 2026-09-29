@@ -1,0 +1,5 @@
+import Link from "next/link";
+export default async function Login({searchParams}:{searchParams:Promise<{error?:string;locked?:string}>}){
+ const q=await searchParams;
+ return <section className="section"><div className="container"><div className="form"><h1>Secure Login</h1><p>Students use their USN; faculty use their Employee ID. Initial passwords are temporary and must be changed at first login.</p>{q.error&&<div className="notice error">Invalid User ID or password.</div>}{q.locked&&<div className="notice error">Too many failed attempts. Try again after 15 minutes or request a password reset.</div>}<form action="/api/auth/login" method="post"><div className="field"><label>User ID / USN</label><input name="username" required autoComplete="username"/></div><div className="field"><label>Password</label><input name="password" type="password" required autoComplete="current-password"/></div><button className="btn">Login</button></form><p><Link href="/forgot-password">Forgot password?</Link></p></div></div></section>
+}
