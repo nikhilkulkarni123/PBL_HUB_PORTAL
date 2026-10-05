@@ -38,7 +38,7 @@ export async function POST(req:Request){
         let sec=(await c.query('SELECT id FROM sections_v2 WHERE program_id=$1 AND academic_cycle_id=$2 AND semester=$3 AND code=$4',[prog,cyc.id,sem,section])).rows[0];
         if(!sec)sec=(await c.query('INSERT INTO sections_v2(program_id,academic_cycle_id,semester,code) VALUES($1,$2,$3,$4) RETURNING id',[prog,cyc.id,sem,section])).rows[0];
         let pc=(await c.query('SELECT id FROM pbl_cycles_v2 WHERE academic_cycle_id=$1 AND program_id=$2 AND semester=$3',[cyc.id,prog,sem])).rows[0];
-        if(!pc)pc=(await c.query("INSERT INTO pbl_cycles_v2(academic_cycle_id,program_id,semester,team_min_size,team_max_size,status) VALUES($1,$2,$3,4,6,'DRAFT') RETURNING id",[cyc.id,prog,sem])).rows[0];
+        if(!pc)pc=(await c.query("INSERT INTO pbl_cycles_v2(academic_cycle_id,program_id,semester,team_min_size,team_max_size,status) VALUES($1,$2,$3,3,6,'DRAFT') RETURNING id",[cyc.id,prog,sem])).rows[0];
 
         const mentor=(await c.query('SELECT id FROM faculty_v2 WHERE employee_id=$1',[r['Mentor Id']||''])).rows[0]?.id||null;
         let stu=(await c.query('SELECT id,user_id FROM students_v2 WHERE usn=$1',[usn])).rows[0];

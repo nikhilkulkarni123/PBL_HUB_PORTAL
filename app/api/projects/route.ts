@@ -32,8 +32,13 @@ export async function POST(req:Request){
     const cycle=(await query<{id:number}>('SELECT id FROM pbl_cycles_v2 WHERE id=$1',[pblCycleId]))[0];
     if(!cycle)return backWithError(req,'Selected PBL semester was not found.');
 
-    const n=(await query<{n:number}>('SELECT COUNT(*)::int+1 n FROM projects_v2 WHERE pbl_cycle_id=$1',[pblCycleId]))[0]?.n||1;
-    const code=`PBL-P-${pblCycleId}-${String(n).padStart(4,'0')}`;
+    const prefix = `PBL-P-${pblCycleId}-`;
+    const existing = (await query<{project_code:string}>('SELECT project_code FROM projects_v2 WHERE project_code LIKE $1',[`${prefix}%`])).map(r => r.project_code);
+    let seq = 1;
+    while (existing.includes(`${prefix}${String(seq).padStart(4,'0')}`)) {
+      seq++;
+    }
+    const code = `${prefix}${String(seq).padStart(4,'0')}`;
     await query(`INSERT INTO projects_v2(
       pbl_cycle_id,project_code,title,short_description,description,problem_statement,expected_outcome,domain,technology_stack,
       project_type,owner_faculty_id,guide_faculty_id,max_teams,application_mode,status,published_at

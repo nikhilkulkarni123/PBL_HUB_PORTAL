@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 
-type Student = {
+export type Student = {
   enrollment_id: number | string;
   usn: string;
   name: string;
@@ -10,14 +10,28 @@ type Student = {
   mentor_name: string | null;
 };
 
+export type FacultyGuide = {
+  id: number;
+  employee_id: string;
+  name: string;
+  designation: string | null;
+  department: string | null;
+  overall_max: number;
+  semester_max: number;
+  semester_load: number;
+  total_load: number;
+};
+
 export default function StudentTeamSelector({
   students,
+  facultyList = [],
   pblCycleId,
   semester,
   minSize,
   maxSize,
 }: {
   students: Student[];
+  facultyList?: FacultyGuide[];
   pblCycleId: number;
   semester: number;
   minSize: number;
@@ -27,16 +41,18 @@ export default function StudentTeamSelector({
   const [section, setSection] = useState('ALL');
   const [selected, setSelected] = useState<string[]>([]);
   const [leader, setLeader] = useState<string>('');
+  const [guideFacultyId, setGuideFacultyId] = useState<string>('');
+  const [projectTitle, setProjectTitle] = useState<string>('');
 
-  const effectiveMin = Number(minSize) || 4;
+  const effectiveMin = Number(minSize) || 3;
   const effectiveMax = Number(maxSize) || 6;
 
   // Automatically default leader to first selected student if empty or unselected
-  const effectiveLeader = leader && selected.includes(leader) ? leader : (selected[0] || '');
+  const effectiveLeader = leader && selected.includes(leader) ? leader : selected[0] || '';
 
   const sections = useMemo(
     () => Array.from(new Set(students.map((s) => s.section_code))).sort(),
-    [students],
+    [students]
   );
 
   const filtered = useMemo(() => {
@@ -50,12 +66,17 @@ export default function StudentTeamSelector({
 
   const selectedStudents = useMemo(
     () => students.filter((s) => selected.includes(String(s.enrollment_id))),
-    [students, selected],
+    [students, selected]
   );
 
   const leaderStudent = useMemo(
     () => selectedStudents.find((s) => String(s.enrollment_id) === effectiveLeader),
-    [selectedStudents, effectiveLeader],
+    [selectedStudents, effectiveLeader]
+  );
+
+  const selectedGuide = useMemo(
+    () => facultyList.find((f) => String(f.id) === guideFacultyId),
+    [facultyList, guideFacultyId]
   );
 
   function toggle(id: number | string) {
@@ -101,8 +122,8 @@ export default function StudentTeamSelector({
       ))}
 
       <div className="field">
-        <label>Team name</label>
-        <input name="teamName" placeholder="Enter team name" required />
+        <label>Team Name <span style={{ color: '#ef4444' }}>*</span></label>
+        <input name="teamName" placeholder="Enter team name (e.g. CodeWarriors, CyberShield)" required />
       </div>
 
       <div className="card">
@@ -129,7 +150,7 @@ export default function StudentTeamSelector({
               <option value="ALL">All Sections</option>
               {sections.map((x) => (
                 <option key={x} value={x}>
-                  {x}
+                  Section {x}
                 </option>
               ))}
             </select>
@@ -173,7 +194,7 @@ export default function StudentTeamSelector({
                         className="status"
                         style={{ background: '#e7f7ef', color: '#0f8a5f', fontSize: '11px', padding: '2px 8px' }}
                       >
-                        ⭐ Team Leader
+                        Team Leader
                       </span>
                     )}
                   </span>
@@ -236,7 +257,7 @@ export default function StudentTeamSelector({
                       <b>{s.usn}</b>
                     </td>
                     <td>{s.name}</td>
-                    <td>{s.section_code}</td>
+                    <td><span className="badge">{s.section_code}</span></td>
                     <td>{s.mentor_name || '—'}</td>
                   </tr>
                 );
@@ -251,7 +272,7 @@ export default function StudentTeamSelector({
       </div>
 
       <div className="field">
-        <label>Team leader</label>
+        <label>Team Leader <span style={{ color: '#ef4444' }}>*</span></label>
         <select
           name="leaderEnrollmentId"
           required
@@ -272,6 +293,50 @@ export default function StudentTeamSelector({
         </select>
       </div>
 
+      {/* Guide Assignment Section */}
+      <div className="card" style={{ background: '#f8fafc', border: '1px solid #cbd5e1' }}>
+        <h3 style={{ marginTop: 0, marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          Assign Project Guide <span style={{ fontSize: '0.85rem', fontWeight: 400, color: 'var(--muted, #666)' }}>(Optional)</span>
+        </h3>
+        <p style={{ margin: '0 0 1rem', fontSize: '0.9rem', color: 'var(--muted, #666)' }}>
+          You can assign a faculty guide to this team right now during team creation, or assign/change it later.
+        </p>
+
+        <div className="field">
+          <label>Project Guide Faculty</label>
+          <select
+            name="guideFacultyId"
+            value={guideFacultyId}
+            onChange={(e) => setGuideFacultyId(e.target.value)}
+          >
+            <option value="">-- No Guide Assigned Yet (Can assign later) --</option>
+            {facultyList.map((f) => {
+              const semAvailable = f.semester_max - f.semester_load;
+              const totalAvailable = f.overall_max - f.total_load;
+              const isFull = semAvailable <= 0 || totalAvailable <= 0;
+              return (
+                <option key={f.id} value={f.id} disabled={isFull}>
+                  {f.name} ({f.employee_id}) — Load: {f.semester_load}/{f.semester_max} sem, {f.total_load}/{f.overall_max} total {isFull ? '(FULL)' : ''}
+                </option>
+              );
+            })}
+          </select>
+        </div>
+
+        {guideFacultyId && (
+          <div className="field" style={{ marginTop: '0.75rem' }}>
+            <label>Project Title (Optional)</label>
+            <input
+              name="projectTitle"
+              type="text"
+              value={projectTitle}
+              onChange={(e) => setProjectTitle(e.target.value)}
+              placeholder="Enter project title (or leave blank to auto-generate from team name)"
+            />
+          </div>
+        )}
+      </div>
+
       {selected.length > 0 && selected.length < effectiveMin && (
         <div className="notice" style={{ background: '#fff8e6', borderColor: '#f3cf7a' }}>
           Select <b>{effectiveMin - selected.length}</b> more student(s) to reach the minimum team size of {effectiveMin}.
@@ -280,7 +345,8 @@ export default function StudentTeamSelector({
 
       {ready && (
         <div className="notice" style={{ background: '#eafaf1', borderColor: '#a3e6c0', color: '#0f5132' }}>
-          ✓ Ready to create team! <b>{selected.length}</b> students selected with <b>{leaderStudent?.name || 'leader selected'}</b> as Team Leader.
+          Ready to create team: <b>{selected.length}</b> students selected with <b>{leaderStudent?.name || 'leader selected'}</b> as Team Leader
+          {selectedGuide ? ` and ${selectedGuide.name} assigned as Guide.` : '.'}
         </div>
       )}
 

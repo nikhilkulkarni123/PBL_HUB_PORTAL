@@ -4106,7 +4106,7 @@
     "program_code": "CSE",
     "program_name": "Computer Science and Engineering",
     "department": "CSE",
-    "team_min_size": 4,
+    "team_min_size": 3,
     "team_max_size": 6,
     "semester_guide_limit": 3,
     "overall_guide_limit": 6,
