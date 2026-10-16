@@ -1,2 +1,38 @@
-import Link from 'next/link';import { listProjects } from '@/lib/data';
-export default async function Projects(){const ps=await listProjects();return <section className="section"><div className="container"><h1>Explore Project Ideas</h1><p className="lead">Faculty projects are open to eligible teams. Student-initiated projects are visible for transparency but reserved for their owning team.</p><div className="grid">{ps.map(p=><article className="card" key={p.id}><span className="status">{p.project_type==='STUDENT_PROJECT'?'STUDENT INITIATED — RESERVED':p.status}</span><h2>{p.title}</h2><p>{p.short_description}</p><p><b>Semester:</b> {p.semester}<br/><b>Owner:</b> {p.owner_name}<br/><b>Guide:</b> {p.guide_name}<br/><b>Domain:</b> {p.domain}</p><p>{p.allocated_count} of {p.max_teams} allocation slot(s) used</p><Link className="btn" href={`/projects/${p.id}`}>View project</Link></article>)}</div></div></section>}
+import { listProjects } from '@/lib/data';
+import { getDirectoryFilterMeta } from '@/lib/filter-options';
+import ProjectsDirectory from '@/components/ProjectsDirectory';
+
+export default async function ProjectsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{
+    institution?: string;
+    sem?: string;
+    section?: string;
+    q?: string;
+  }>;
+}) {
+  const params = searchParams ? await searchParams : {};
+
+  const [projects, filterMeta] = await Promise.all([
+    listProjects(),
+    getDirectoryFilterMeta(),
+  ]);
+
+  return (
+    <section className="section">
+      <div className="container">
+        <h1>Explore Project Ideas</h1>
+        <p className="lead">
+          Faculty projects are open to eligible teams. Student-initiated projects are visible for transparency but reserved for their owning team. Filter by Institution, Semester, and Section.
+        </p>
+
+        <ProjectsDirectory
+          initialProjects={projects}
+          filterMeta={filterMeta}
+          initialParams={params}
+        />
+      </div>
+    </section>
+  );
+}

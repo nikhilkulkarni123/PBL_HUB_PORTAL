@@ -4,3 +4,24 @@
 
 /* V4 review-submission and designer additions */
 .designer-grid{display:grid;grid-template-columns:120px 1fr 120px;gap:10px}.level-grid{display:grid;grid-template-columns:120px 100px 1fr auto;gap:8px;margin-bottom:8px}.btn:disabled{opacity:.5;cursor:not-allowed}.card .btn{margin-top:4px}.card a.btn{margin-right:5px}@media(max-width:750px){.designer-grid,.level-grid{grid-template-columns:1fr}}
+
+/* Directory Filters & Badges */
+.filter-card{background:white;border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:24px;box-shadow:0 2px 10px rgba(16,42,67,.04)}
+.filter-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.filter-title{font-size:15px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px}
+.filter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;align-items:flex-end}
+.filter-field{display:flex;flex-direction:column;gap:6px}
+.filter-field label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.filter-field select,.filter-field input{padding:9px 12px;border:1px solid #bcccdc;border-radius:7px;font-size:14px;background:#fbfdff;color:var(--text);outline:none;transition:border-color .15s ease,box-shadow .15s ease;width:100%}
+.filter-field select:focus,.filter-field input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(31,111,235,.12)}
+.filter-actions{display:flex;gap:10px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px dashed var(--border);flex-wrap:wrap}
+.filter-pill{display:inline-flex;align-items:center;gap:6px;background:#edf4ff;color:#1756a9;border:1px solid #c7dbfb;border-radius:999px;font-size:12px;font-weight:600;padding:3px 10px;cursor:pointer;transition:all .15s ease}
+.filter-pill:hover{background:#dfeaff;color:#0f3e7a}
+.filter-pill .pill-close{font-weight:bold;font-size:13px;line-height:1}
+.badge-inst{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:.5px}
+.badge-inst-gmu{background:#e8f1ff;color:#1852b4;border:1px solid #c4dcfe}
+.badge-inst-gmit{background:#e6f7ed;color:#0b7a48;border:1px solid #b7e8cd}
+.badge-sem{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:#f2eaff;color:#6529b4;border:1px solid #dfc7ff}
+.badge-sec{display:inline-block;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;background:#fff4e5;color:#b75700;border:1px solid #fdd8ae}
+.result-count-badge{font-size:13px;font-weight:600;color:var(--muted);background:#f0f4f8;padding:4px 10px;border-radius:6px}
+

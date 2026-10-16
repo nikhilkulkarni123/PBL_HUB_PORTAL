@@ -160,6 +160,48 @@
       "email": null,
       "phone": null,
       "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26030",
+      "name": "HARSHITHA H V",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26031",
+      "name": "TEJAS R HASBAVI",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26052",
+      "name": "SUSHAMA P M",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26056",
+      "name": "BHAVANA K Y",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26063",
+      "name": "BABU SAB",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
+    },
+    {
+      "employee_id": "EC26064",
+      "name": "YASHASWINI N S",
+      "email": null,
+      "phone": null,
+      "source": "FACULTY_MASTER"
     }
   ],
   "students": [
@@ -290,6 +332,22 @@
       "mentor": "KAVYASHREE P N",
       "mother_name": "ANNAPURNA",
       "date_of_birth": "2005-10-04"
+    },
+    {
+      "academic_year": "2026-27",
+      "season": "ODD",
+      "program": "CSE",
+      "course": "BTECH",
+      "usn": "U23E01CS011",
+      "name": "DARSHAN M",
+      "year": 4,
+      "semester": 7,
+      "section": "CS4A",
+      "scheme": null,
+      "mentor_id": "EC25037",
+      "mentor": "KAVYASHREE P N",
+      "mother_name": null,
+      "date_of_birth": null
     },
     {
       "academic_year": "2026-27",

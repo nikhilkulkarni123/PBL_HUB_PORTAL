@@ -3,7 +3,7 @@
   "version": "4.1.1",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
@@ -19,7 +19,9 @@
     "db:cleanup-faculty-projects-v4.1.1": "tsx scripts/cleanup-faculty-projects-v4-1-1.ts",
     "db:upgrade-gmit": "tsx scripts/migrate.ts",
     "db:import-gmit": "tsx scripts/import-gmit-students.ts",
-    "db:verify-gmit": "tsx scripts/verify-gmit-import.ts"
+    "db:verify-gmit": "tsx scripts/verify-gmit-import.ts",
+    "db:add-faculty": "tsx scripts/add-faculty.ts",
+    "db:add-student": "tsx scripts/add-student.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
